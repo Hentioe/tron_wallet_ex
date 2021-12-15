@@ -26,3 +26,4 @@ tron_ex-*.tar
 /tmp/
 
 /_build/
+/.elixir_ls/
