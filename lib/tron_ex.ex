@@ -1,6 +1,6 @@
-defmodule TronEx do
+defmodule Tron do
   @moduledoc """
-  Documentation for `TronEx`.
+  Documentation for `Tron`.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule TronEx do
 
   ## Examples
 
-      iex> TronEx.hello()
+      iex> Tron.hello()
       :world
 
   """

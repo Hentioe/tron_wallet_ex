@@ -1,8 +1,8 @@
-defmodule TronExTest do
+defmodule TronTest do
   use ExUnit.Case
-  doctest TronEx
+  doctest Tron
 
   test "greets the world" do
-    assert TronEx.hello() == :world
+    assert Tron.hello() == :world
   end
 end
