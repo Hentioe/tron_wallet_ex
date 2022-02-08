@@ -4,7 +4,7 @@ defmodule Tron do
   alias Tron.{Request, Tools}
 
   def create_transaction(to_address, owner_address, amount) do
-    endpoint = "https://api.shasta.trongrid.io/wallet/createtransaction"
+    endpoint = "https://nile.trongrid.io/wallet/createtransaction"
 
     to_address =
       if String.length(to_address) == 42 do
@@ -26,7 +26,7 @@ defmodule Tron do
   end
 
   def get_transaction_sign(transaction, private_key) do
-    endpoint = "https://api.shasta.trongrid.io/wallet/gettransactionsign"
+    endpoint = "https://nile.trongrid.io/wallet/gettransactionsign"
 
     body = %{
       transaction: %{
@@ -40,7 +40,7 @@ defmodule Tron do
   end
 
   def broadcast_transaction(raw_data, raw_data_hex, signature) do
-    endpoint = "https://api.shasta.trongrid.io/wallet/broadcasttransaction"
+    endpoint = "https://nile.trongrid.io/wallet/broadcasttransaction"
 
     body = %{
       raw_data: raw_data,
