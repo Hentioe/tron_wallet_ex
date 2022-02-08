@@ -22,7 +22,9 @@ defmodule Tron.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:httpoison, "~> 1.8"},
+      {:jason, "~> 1.2"}
     ]
   end
 end
