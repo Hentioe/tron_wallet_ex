@@ -24,7 +24,10 @@ defmodule Tron.MixProject do
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:httpoison, "~> 1.8"},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
+      {:exbase58, "~> 1.0"},
+      {:ex_sha3, "~> 0.1.1"},
+      {:libsecp256k1, "~> 0.1.10"}
     ]
   end
 end
