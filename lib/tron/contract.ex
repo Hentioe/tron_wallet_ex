@@ -7,47 +7,39 @@ defmodule Tron.Contract do
   defstruct [:contract_address, :owner_address]
 
   def name(contract) when is_struct(contract, __MODULE__) do
-    endpoint = "https://nile.trongrid.io/wallet/triggersmartcontract"
-
     body = %{
       contract_address: contract.contract_address,
       function_selector: "name()",
       owner_address: contract.owner_address
     }
 
-    Request.call(endpoint, {:post, :json}, body: body)
+    Request.call("triggersmartcontract", {:post, :json}, body: body)
   end
 
   def symbol(contract) when is_struct(contract, __MODULE__) do
-    endpoint = "https://nile.trongrid.io/wallet/triggersmartcontract"
-
     body = %{
       contract_address: contract.contract_address,
       function_selector: "symbol()",
       owner_address: contract.owner_address
     }
 
-    Request.call(endpoint, {:post, :json}, body: body)
+    Request.call("triggersmartcontract", {:post, :json}, body: body)
   end
 
   def decimals(contract) when is_struct(contract, __MODULE__) do
-    endpoint = "https://nile.trongrid.io/wallet/triggersmartcontract"
-
     body = %{
       contract_address: contract.contract_address,
       function_selector: "decimals()",
       owner_address: contract.owner_address
     }
 
-    Request.call(endpoint, {:post, :json}, body: body)
+    Request.call("triggersmartcontract", {:post, :json}, body: body)
   end
 
   @doc """
   获取 TRC20 代币余额。
   """
   def balance_of(contract, address) do
-    endpoint = "https://nile.trongrid.io/wallet/triggersmartcontract"
-
     address_hex =
       if String.length(address) == 42 do
         address
@@ -64,15 +56,13 @@ defmodule Tron.Contract do
       owner_address: contract.owner_address
     }
 
-    Request.call(endpoint, {:post, :json}, body: body)
+    Request.call("triggersmartcontract", {:post, :json}, body: body)
   end
 
   @doc """
   转账代币。
   """
   def transfer(contract, address, amount) do
-    endpoint = "https://nile.trongrid.io/wallet/triggersmartcontract"
-
     address_hex =
       if String.length(address) == 42 do
         address
@@ -102,7 +92,7 @@ defmodule Tron.Contract do
       owner_address: contract.owner_address
     }
 
-    Request.call(endpoint, {:post, :json}, body: body)
+    Request.call("triggersmartcontract", {:post, :json}, body: body)
   end
 
   def easy_transfer_by_private(contract, private_key, to_address, amount) do
@@ -122,7 +112,28 @@ defmodule Tron.Contract do
     end
   end
 
-  def gen_usdt(owner_address) do
+  def new(contract_address, owner_address) do
+    contract_address_hex =
+      if String.length(contract_address) == 42 do
+        contract_address
+      else
+        Tools.base58_to_hex(contract_address)
+      end
+
+    owner_address_hex =
+      if String.length(owner_address) == 42 do
+        owner_address
+      else
+        Tools.base58_to_hex(owner_address)
+      end
+
+    %__MODULE__{
+      contract_address: contract_address_hex,
+      owner_address: owner_address_hex
+    }
+  end
+
+  def gen_nile_usdt(owner_address) do
     # Nile 网络的 usdt 合约地址: TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf
 
     owner_address_hex =
@@ -138,7 +149,7 @@ defmodule Tron.Contract do
     }
   end
 
-  def gen_win(owner_address) do
+  def gen_nile_win(owner_address) do
     # Nile 网络的 win 合约地址: TU2T8vpHZhCNY8fXGVaHyeZrKm8s6HEXWe
 
     owner_address_hex =
@@ -150,22 +161,6 @@ defmodule Tron.Contract do
 
     %__MODULE__{
       contract_address: Tools.base58_to_hex("TU2T8vpHZhCNY8fXGVaHyeZrKm8s6HEXWe"),
-      owner_address: owner_address_hex
-    }
-  end
-
-  def gen_btt(owner_address) do
-    # Nile 网络的 btt 合约地址: TNuoKL1ni8aoshfFL1ASca1Gou9RXwAzfn
-
-    owner_address_hex =
-      if String.length(owner_address) == 42 do
-        owner_address
-      else
-        Tools.base58_to_hex(owner_address)
-      end
-
-    %__MODULE__{
-      contract_address: Tools.base58_to_hex("TNuoKL1ni8aoshfFL1ASca1Gou9RXwAzfn"),
       owner_address: owner_address_hex
     }
   end

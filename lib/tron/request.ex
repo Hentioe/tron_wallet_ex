@@ -1,6 +1,7 @@
 defmodule Tron.Request do
   @moduledoc false
 
+  alias Tron.Config
   alias Tron.Models.{ApiError, RequestError}
 
   @type error :: ApiError.t() | RequestError.t()
@@ -11,18 +12,21 @@ defmodule Tron.Request do
   @spec call(String.t(), {method, content_type} | method, keyword) ::
           {:ok, response} | {:error, error}
 
-  def call(endpoint, mc, opts \\ [])
+  def call(action, mc, opts \\ [])
 
-  def call(endpoint, {:post, :json}, opts) do
+  def call(action, {:post, :json}, opts) do
     body = Keyword.get(opts, :body)
     json_body = Jason.encode!(body)
+    endpoint = gen_endpoint(action)
 
     endpoint
     |> HTTPoison.post(json_body)
     |> handle_httpsion_returns()
   end
 
-  def call(endpoint, :get, _opts) do
+  def call(action, :get, _opts) do
+    endpoint = gen_endpoint(action)
+
     endpoint
     |> HTTPoison.get()
     |> handle_httpsion_returns()
@@ -49,5 +53,13 @@ defmodule Tron.Request do
 
   defp handle_httpsion_returns({:error, err}) do
     {:error, %RequestError{reason: err.reason, msg: HTTPoison.Error.message(err)}}
+  end
+
+  defp gen_endpoint(action) do
+    if Config.local_api?(action) do
+      Config.local_node_url() <> "/wallet/#{action}"
+    else
+      Config.network_url() <> "/wallet/#{action}"
+    end
   end
 end
