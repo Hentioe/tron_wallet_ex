@@ -28,7 +28,9 @@ defmodule Tron.MixProject do
       {:exbase58, "~> 1.0"},
       {:ex_sha3, "~> 0.1.1"},
       {:libsecp256k1, "~> 0.1.10"},
-      {:decimal, "~> 2.0"}
+      {:decimal, "~> 2.0"},
+      # {:protobuf, "~> 0.9.0"},
+      # {:google_protos, "~> 0.2.0"}
     ]
   end
 end
