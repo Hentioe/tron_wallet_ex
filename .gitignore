@@ -27,3 +27,4 @@ tron-*.tar
 
 /_build/
 /.elixir_ls/
+/config/*.secret.exs
