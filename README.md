@@ -4,7 +4,7 @@ This library is designed to implement Tron wallet functionality with the goal of
 
 ## WIP
 
-Currently it implements a small number of APIs (including interacting with TRC20 contracts), but unfortunately offline signatures have not been implemented for the time being. However, you can still run the node locally to support the signature function in the `easy_transfer_by_private` function.
+A small number of NodeFull APIs (which I personally use) have been added so far, looking forward to your needs. This library has implemented offline transaction signature, including the signature part of `easy_transfer_by_private` and `get_transaction_sign` functions are implemented offline and will not interact with any remote end.
 
 ## Usage
 
@@ -21,4 +21,4 @@ iex(2)> Tron.Contract.easy_transfer_by_private usdt, "<YOUR_PRIVATE_KEY>", "TMA9
 {:ok, "b4198c3871b8c12405004b27c46203ee3e244d5d06839f20a8d96bc404cb6e35"}
 ```
 
-Note that the `easy_transfer_by_private` function here is implemented by calling different functions (create, sign, broadcast), where the signature requires the support of the local node.
+If you find that the library is still buggy in the signing part, you can also configure a node that hosts the signing function.
