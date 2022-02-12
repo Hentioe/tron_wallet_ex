@@ -98,7 +98,7 @@ defmodule Tron.Contract do
   def easy_transfer_by_private(contract, private_key, to_address, amount) do
     with {:ok, %{"transaction" => transaction}} <-
            transfer(contract, to_address, amount),
-         {:ok, transaction} <- Tron.sign_transaction_locally(transaction, private_key),
+         {:ok, transaction} <- Tron.get_transaction_sign(transaction, private_key),
          {:ok, %{"result" => true, "txid" => txid}} <- Tron.broadcast_transaction(transaction) do
       {:ok, txid}
     else

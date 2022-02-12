@@ -1,7 +1,7 @@
 defmodule Tron do
   @moduledoc false
 
-  alias Tron.{Request, Tools}
+  alias Tron.{Request, Tools, Config}
 
   def create_transaction(to_address, owner_address, amount) do
     to_address =
@@ -24,15 +24,19 @@ defmodule Tron do
   end
 
   def get_transaction_sign(transaction, private_key) do
-    body = %{
-      transaction: %{
-        raw_data: transaction["raw_data"],
-        raw_data_hex: transaction["raw_data_hex"]
-      },
-      privateKey: private_key
-    }
+    if Config.hosted_signature() do
+      body = %{
+        transaction: %{
+          raw_data: transaction["raw_data"],
+          raw_data_hex: transaction["raw_data_hex"]
+        },
+        privateKey: private_key
+      }
 
-    Request.call("gettransactionsign", {:post, :json}, body: body)
+      Request.call("gettransactionsign", {:post, :json}, body: body)
+    else
+      sign_transaction_locally(transaction, private_key)
+    end
   end
 
   def broadcast_transaction(
@@ -52,7 +56,7 @@ defmodule Tron do
     owner_address = get_address(private_key)
 
     with {:ok, transaction} <- create_transaction(to_address, owner_address, amount),
-         {:ok, transaction} <- sign_transaction_locally(transaction, private_key),
+         {:ok, transaction} <- get_transaction_sign(transaction, private_key),
          {:ok, %{"result" => true, "txid" => txid}} <- Tron.broadcast_transaction(transaction) do
       {:ok, txid}
     else

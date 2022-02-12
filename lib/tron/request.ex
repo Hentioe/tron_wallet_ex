@@ -56,8 +56,8 @@ defmodule Tron.Request do
   end
 
   defp gen_endpoint(action) do
-    if Config.local_api?(action) do
-      Config.local_node_url() <> "/wallet/#{action}"
+    if action == "gettransactionsign" do
+      Config.hosted_node_url() <> "/wallet/#{action}"
     else
       Config.network_url() <> "/wallet/#{action}"
     end

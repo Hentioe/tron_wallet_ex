@@ -12,12 +12,14 @@ defmodule Tron.Config do
     end
   end
 
-  def local_api?(action) do
-    Enum.member?(get(:local_api_list) || [], action)
+  @spec hosted_node_url :: String.t() | nil
+  def hosted_node_url do
+    get(:hosted_node_url)
   end
 
-  def local_node_url do
-    get(:local_node_url, "http://127.0.0.1:8090")
+  @spec hosted_signature :: boolean
+  def hosted_signature do
+    get(:hosted_signature, false)
   end
 
   @spec get(atom, any) :: any
